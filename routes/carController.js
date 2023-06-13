@@ -16,7 +16,7 @@ const getImages = async(req,res)=>{
     try {
         await client.connect();
         const datastore = client.db(process.env.DATABASE);
-        const Bucket = new GridFSBucket(datastore,{bucketName:process.env.CAR_IMAGES});
+        const Bucket = new GridFSBucket(datastore,{bucketName: 'carModel'});
         const eventVar= Bucket.openDownloadStreamByName(req.params.image);
         eventVar.on("data",(data)=>{
             return res.write(data)
@@ -135,6 +135,8 @@ const deleteCarData =  async(req,res)=>{
 const GetDataByAdminId = async(req,res)=>{
     try{
         const  AdminId= req.params.id;
+        console.log(AdminId)
+        console.log(req.headers.authorization)
        if(req.headers.authorization){
             const readData = await carDetails.find({AdminId:AdminId});
             res.send(readData)
