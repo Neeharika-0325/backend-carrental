@@ -51,8 +51,10 @@ const getCars = async(req,res)=>{
 
 const PostCars =  async(req, res)=>{
     try{
+        console.log(req.headers.authorization)
         if(req.headers.authorization){
             let userVar = jwt.verify(req.headers.authorization, ENCRYPTION_SECRET)//id  //
+            console.log(userVar,carDetails.AdminId)
             let data = new carDetails({image:req.file.filename,AdminId:userVar._id,...req.body});
             let createData = await data.save();
             res.status(201).send(createData)
@@ -60,7 +62,11 @@ const PostCars =  async(req, res)=>{
             res.status(404).send({message:"Unothorized User"})
         }
     }catch(err){
-        res.status(400).json({message:err.message})
+        console.log(err)
+        res.status(400).send({
+            message:err.message
+
+        })
     }
 }
 
