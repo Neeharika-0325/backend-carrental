@@ -35,7 +35,7 @@ const getOrdersCtrl = async (req, res) => {
 const deleteOrderCtrl= async(req,res)=>{
 try {
   const _id=req.params.id;
-  const deletedData = await Orders.findByIdAndDelete(_id);
+  const deletedData = await Orders.deleteOne({_id});
   res.send(deletedData)
 } catch (error) {
   res.status(400).send({message:error.message})
